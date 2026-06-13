@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
 import sqlite3
-
+from flask import render_template_string,session) 
 app = Flask(__name__)
-
+app.secret_key = 'abc123'
 # Database banane wala function
 def init_db():
     conn = sqlite3.connect('bot.db')
@@ -15,7 +15,11 @@ def init_db():
     conn.close()
 
 init_db()
-
+@app.route('/admin')
+def admin():
+    status = 'ON'
+    return f'<h1>Bot Status: {status}</h1><button>OFF</button>'
+    
 @app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.get_json()
